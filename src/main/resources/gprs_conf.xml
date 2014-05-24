@@ -1,0 +1,18 @@
+<beanio xmlns="http://www.beanio.org/2012/03"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+    <stream name="records" format="delimited">
+
+        <parser>
+            <property name="delimiter" value=";" />
+        </parser>
+
+        <!-- Detail records are bound to example.Contact -->
+        <record name="fileRecord" occurs="0+" class="it.reply.vcfg.model.GprsParameterConfiguration">
+            <!-- 01 -->	<field name="commonCode" />
+            <!-- 02 -->	<field name="salesChannel" />
+            <!-- 03 -->	<field name="eventKey" />
+            <!-- 04 -->	<field name="rateModel" />
+            <!-- 05 -->	<field name="ratePlan" />
+        </record>
+    </stream>
+</beanio>

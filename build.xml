@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+
+<project name="Pusp_Project" default="build" >
+
+    <property environment="env"/>
+    <property file="build.properties"/>
+
+    <target name="clean">
+        <echo>=== CLEAN ===</echo>
+        <echo>${basedir}</echo>
+        <delete dir="./build" />
+        <delete dir="./dist" />
+    </target>
+
+    <target name="prepare">
+        <echo>=== Prepare ===</echo>
+
+        <mkdir dir="build"/>
+
+        <mkdir dir="dist" />
+        <mkdir dir="dist/vcfg" />
+        <mkdir dir="dist/vcfg/lib" />
+    </target>
+
+    <target name="compile" depends="clean" description="Compila il contenuto di src">
+
+        <path id="library.Project">
+            <fileset dir="./lib/">
+                <include name="**/*.jar"/>
+            </fileset>
+        </path>
+
+        <manifestclasspath property="lib.list" jarfile="./lib">
+            <classpath refid="library.Project" />
+        </manifestclasspath>
+
+        <mkdir dir="./build"/>
+
+        <javac srcdir="./src" destdir="./build" deprecation="true" debug="true" optimize="true">
+            <classpath>
+                <path refid="library.Project" />
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="build" depends="compile" description="Creazione file pusp.jar">
+
+        <delete file="dist/vcfg.jar" />
+
+        <copy todir="${dist.dir}/lib">
+            <fileset dir="${lib.dir}" />
+        </copy>
+
+        <jar jarfile="${basedir}/dist/vcfg.jar" basedir="${basedir}/build">
+            <manifest>
+                <attribute name="Class-Path" value="./conf/ ${lib.list}"/>
+                <attribute name="Main-Class" value="it.reply.vcfg.Vcfg"/>
+            </manifest>
+        </jar>
+
+        <copy todir="${basedir}">
+            <fileset dir="${basedir}/dist">
+                <include name="**/vcfg.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!--
+    <target name="export" depends="build" description="Export struttura pusp">
+        <copy todir="${path_batch_pusp}">
+            <fileset dir="${basedir}">
+                <exclude name="**/src/**"/>
+                <exclude name="**/dist/**"/>
+                <exclude name="**/build/**"/>
+                <exclude name="**/bin/**"/>
+                <exclude name="**/.classpath"/>
+                <exclude name="**/.project"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${path_bin}/TAG_IMG/BATCHROOT/ITT/bin">
+            <fileset dir="${basedir}">
+                <include name="**/pusp.sh"/>
+            </fileset>
+        </copy>
+    </target>
+    -->
+
+    <!--<target name="project.zip" depends="build" description="Creazione file zip contenente la struttura del processo di pusp.">
+        <delete file="${basedir}/../Process/Pusp.zip" />
+
+        <zip destfile="${basedir}/../Process/Pusp.zip">
+            <zipfileset dir="${basedir}/../Process/Pusp" prefix="Pusp" excludes="**/logs/**.*"/>
+        </zip>
+    </target>-->
+
+    <target name="project.tar.gz" depends="build" description="Creazione file tar.gz contenente la struttura del processo di pusp.">
+        <!--<delete file="${basedir}/../Process/Pusp.tar.gz" />
+
+        <tar destfile="${basedir}/../Process/Pusp.tar.gz" compression="gzip">
+            <zipfileset dir="${basedir}/../Process/Pusp" prefix="Pusp" excludes="**/logs/**.*"/>
+        </tar>	-->
+    </target>
+</project>
