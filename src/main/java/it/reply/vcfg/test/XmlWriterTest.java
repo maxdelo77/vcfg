@@ -29,7 +29,7 @@ import org.w3c.dom.Text;
  */
 public class XmlWriterTest {
 
-    private static String fileToReadPath = "C:/Users/Massimo/Documents/My Box Files/work/vf-configuration-files-generator/res/";
+    private static String fileToReadPath = "D:/work/vodafone/vcfg/res/";
     private static String source = "estensioni_gprs_act_source.csv";
     private static String destination = "estensioni_gprs_act_destination.xml";
     private static String mappingFile = "gprs_conf.xml";
